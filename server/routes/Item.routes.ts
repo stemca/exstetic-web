@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { Item } from '../models/Item.model';
+import { Item } from '../models/item.model';
 
 const router: Router = Router();
 
@@ -72,7 +72,7 @@ router.patch('/api/items/:id', async (req: Request, res: Response) => {
   try {
     const item = req.body;
     item.totalQuantity = getTotalQuantity(req.body.sizes);
-    console.log(item)
+    console.log(item);
     const updatedItem = await Item.findByIdAndUpdate(req.params.id, item, {
       new: true,
     });

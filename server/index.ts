@@ -1,11 +1,12 @@
 import express, { Express } from 'express';
 import cors from 'cors';
-import dotenv from 'dotenv';
+import { config } from 'dotenv';
 import { connect, ConnectOptions } from 'mongoose';
 
-import { itemRouter } from './routes/Item.routes';
+import { userRouter } from './routes/user.routes';
+import { itemRouter } from './routes/item.routes';
 
-dotenv.config();
+config();
 
 const app: Express = express();
 const port = process.env.PORT;
@@ -24,6 +25,7 @@ connect(process.env.MONGO_URI as string, {
 });
 
 // routes
+app.use(userRouter);
 app.use(itemRouter);
 
 app.listen(port, () => {

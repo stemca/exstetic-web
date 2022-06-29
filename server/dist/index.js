@@ -5,10 +5,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
-const dotenv_1 = __importDefault(require("dotenv"));
+const dotenv_1 = require("dotenv");
 const mongoose_1 = require("mongoose");
-const Item_routes_1 = require("./routes/Item.routes");
-dotenv_1.default.config();
+const user_routes_1 = require("./routes/user.routes");
+const item_routes_1 = require("./routes/item.routes");
+(0, dotenv_1.config)();
 const app = (0, express_1.default)();
 const port = process.env.PORT;
 app.use((0, cors_1.default)());
@@ -23,7 +24,8 @@ app.use(express_1.default.json());
     process.exit();
 });
 // routes
-app.use(Item_routes_1.itemRouter);
+app.use(user_routes_1.userRouter);
+app.use(item_routes_1.itemRouter);
 app.listen(port, () => {
     console.log(`Server listening on port ${port}`);
 });

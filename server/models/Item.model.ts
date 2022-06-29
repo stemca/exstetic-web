@@ -1,5 +1,4 @@
 import { Document, Schema, Model, model } from 'mongoose';
-
 interface ItemInterface extends Document {
   name: string;
   sizes: [string: number];

@@ -11,7 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.itemRouter = void 0;
 const express_1 = require("express");
-const Item_model_1 = require("../models/Item.model");
+const item_model_1 = require("../models/item.model");
 const router = (0, express_1.Router)();
 exports.itemRouter = router;
 /**
@@ -21,7 +21,7 @@ exports.itemRouter = router;
  */
 router.get('/api/items', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const items = yield Item_model_1.Item.find();
+        const items = yield item_model_1.Item.find();
         res.status(200).send(items);
     }
     catch (error) {
@@ -35,7 +35,7 @@ router.get('/api/items', (req, res) => __awaiter(void 0, void 0, void 0, functio
  */
 router.get('/api/items/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const item = yield Item_model_1.Item.findById(req.params.id);
+        const item = yield item_model_1.Item.findById(req.params.id);
         if (!item)
             return res.status(400).send({ message: 'Item does not exist' });
         res.status(200).send(item);
@@ -51,7 +51,7 @@ router.get('/api/items/:id', (req, res) => __awaiter(void 0, void 0, void 0, fun
  */
 router.post('/api/items', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const item = new Item_model_1.Item({
+        const item = new item_model_1.Item({
             name: req.body.name,
             sizes: req.body.sizes,
             price: req.body.price,
@@ -73,7 +73,7 @@ router.post('/api/items', (req, res) => __awaiter(void 0, void 0, void 0, functi
  */
 router.delete('/api/items/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield Item_model_1.Item.findByIdAndDelete(req.params.id);
+        yield item_model_1.Item.findByIdAndDelete(req.params.id);
         res.status(200).send({ message: 'Item deleted' });
     }
     catch (error) {
@@ -85,7 +85,7 @@ router.patch('/api/items/:id', (req, res) => __awaiter(void 0, void 0, void 0, f
         const item = req.body;
         item.totalQuantity = getTotalQuantity(req.body.sizes);
         console.log(item);
-        const updatedItem = yield Item_model_1.Item.findByIdAndUpdate(req.params.id, item, {
+        const updatedItem = yield item_model_1.Item.findByIdAndUpdate(req.params.id, item, {
             new: true,
         });
         res.status(200).send(updatedItem);
