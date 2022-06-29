@@ -1,5 +1,5 @@
 import { Document, Schema, Model, model } from 'mongoose';
-interface ItemInterface extends Document {
+interface ProductInterface extends Document {
   name: string;
   sizes: [string: number];
   totalQuantity: number;
@@ -12,7 +12,7 @@ interface ItemInterface extends Document {
 /**
  * Data type for an Item.
  */
-const itemSchema: Schema = new Schema({
+const productSchema: Schema = new Schema({
   name: { type: String, required: true }, // name of the item
   sizes: { type: Map },
   price: { type: Number, required: true }, // price of item
@@ -23,6 +23,7 @@ const itemSchema: Schema = new Schema({
   group: { type: Schema.Types.ObjectId, ref: 'Group' }, // what group the item belongs to. ex: OG
 });
 
-const Item: Model<ItemInterface> = model<ItemInterface>('Item', itemSchema);
+// prettier-ignore
+const Product: Model<ProductInterface> = model<ProductInterface>('Product', productSchema);
 
-export { Item };
+export { Product };

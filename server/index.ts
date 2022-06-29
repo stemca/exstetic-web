@@ -4,7 +4,7 @@ import { config } from 'dotenv';
 import { connect, ConnectOptions } from 'mongoose';
 
 import { userRouter } from './routes/user.routes';
-import { itemRouter } from './routes/item.routes';
+import { productRouter } from './routes/product.routes';
 
 config();
 
@@ -26,7 +26,7 @@ connect(process.env.MONGO_URI as string, {
 
 // routes
 app.use(userRouter);
-app.use(itemRouter);
+app.use(productRouter);
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
