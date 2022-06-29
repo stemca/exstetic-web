@@ -105,8 +105,15 @@ router.post('/api/auth/register', (req, res) => __awaiter(void 0, void 0, void 0
 // prettier-ignore
 router.patch('/api/auth/update-user/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        const user = yield user_model_1.User.findOne({ email: req.body.email });
+        if (!user) {
+            return res.status(400).send({ message: 'No user' });
+        }
+        // checks to see if the new password is the same as the old one by de-hashing and comparing
+        if (!(0, bcrypt_1.compareSync)(req.body.password, user.password)) {
+            req.body.password = yield (0, bcrypt_1.hash)(req.body.password, 8);
+        }
         const updatedUser = yield user_model_1.User.findByIdAndUpdate(req.params.id, req.body, { new: true });
-        console.log(updatedUser);
         return res.status(200).send(updatedUser);
     }
     catch (error) {

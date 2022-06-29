@@ -1,6 +1,6 @@
 import { Request, Router, Response } from 'express';
 import { sign } from 'jsonwebtoken';
-import { compareSync } from 'bcrypt';
+import { compareSync, hash } from 'bcrypt';
 import { config } from 'dotenv';
 
 import { User } from '../models/user.model';
@@ -98,9 +98,19 @@ router.post('/api/auth/register', async (req: Request, res: Response) => {
 // prettier-ignore
 router.patch('/api/auth/update-user/:id', async (req: Request, res: Response) => {
   try {
-    const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true })
-    console.log(updatedUser);
-    return res.status(200).send(updatedUser)
+    const user = await User.findOne({ email: req.body.email});
+    if (!user) {
+      return res.status(400).send({ message: 'No user'})
+    }
+
+    // checks to see if the new password is the same as the old one by de-hashing and comparing
+    if (!compareSync(req.body.password, user.password)) { 
+      req.body.password = await hash(req.body.password, 8);
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
+
+    return res.status(200).send(updatedUser);
   } catch (error: any) {
     return res.status(500).send({ message: error.message });
   };
