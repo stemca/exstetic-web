@@ -11,8 +11,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RefreshToken = void 0;
 const mongoose_1 = require("mongoose");
-const jwtConfig_1 = require("../config/jwtConfig");
 const uuid_1 = require("uuid");
+const jwtConfig_1 = require("../config/jwtConfig");
 const refreshTokenSchema = new mongoose_1.Schema({
     token: String,
     user: { type: mongoose_1.Schema.Types.ObjectId, ref: 'User' },

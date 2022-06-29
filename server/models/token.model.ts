@@ -1,6 +1,6 @@
 import { Document, Model, Schema, model } from 'mongoose';
 
-interface TokenInterface extends Document {
+export interface TokenInterface extends Document {
   userId: string;
   token: string;
   createdAt: Date;

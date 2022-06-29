@@ -1,7 +1,10 @@
 import { Model, model, Schema } from 'mongoose';
-import { jwtConfig } from '../config/jwtConfig';
 import { v4 as uuidv4 } from 'uuid';
+
 import { UserInterface } from './user.model'
+import { TokenInterface } from './token.model';
+import { jwtConfig } from '../config/jwtConfig';
+
 
 interface IRefreshToken {
   token: string;
@@ -10,7 +13,7 @@ interface IRefreshToken {
 }
 
 interface RefreshTokenModel extends Model<IRefreshToken> {
-  verifyExpiration(): boolean;
+  verifyExpiration(token: TokenInterface): boolean;
   createToken(user: UserInterface): Promise<string>;
 }
 
