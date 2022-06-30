@@ -9,13 +9,12 @@ import { productRouter } from './routes/product.routes';
 config();
 
 const app: Express = express();
-const port = process.env.PORT;
 
 app.use(cors());
 app.use(express.json());
 
 // prettier-ignore
-connect(process.env.MONGO_URI as string, {
+connect(<string>process.env.MONGO_URI, {
   useNewUrlParser: true,
 } as ConnectOptions).then(() => {
   console.log('Connected to database')
@@ -28,6 +27,6 @@ connect(process.env.MONGO_URI as string, {
 app.use(userRouter);
 app.use(productRouter);
 
-app.listen(port, () => {
-  console.log(`Server listening on port ${port}`);
+app.listen(<string>process.env.PORT, () => {
+  console.log(`Server listening on port ${process.env.PORT}`);
 });
