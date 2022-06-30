@@ -8,10 +8,9 @@ const cors_1 = __importDefault(require("cors"));
 const dotenv_1 = require("dotenv");
 const mongoose_1 = require("mongoose");
 const user_routes_1 = require("./routes/user.routes");
-const item_routes_1 = require("./routes/item.routes");
+const product_routes_1 = require("./routes/product.routes");
 (0, dotenv_1.config)();
 const app = (0, express_1.default)();
-const port = process.env.PORT;
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 // prettier-ignore
@@ -25,7 +24,7 @@ app.use(express_1.default.json());
 });
 // routes
 app.use(user_routes_1.userRouter);
-app.use(item_routes_1.itemRouter);
-app.listen(port, () => {
-    console.log(`Server listening on port ${port}`);
+app.use(product_routes_1.productRouter);
+app.listen(process.env.PORT, () => {
+    console.log(`Server listening on port ${process.env.PORT}`);
 });
