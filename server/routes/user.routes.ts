@@ -65,7 +65,6 @@ router.post('/api/auth/login', async (req: Request, res: Response) => {
 
     return res.status(200).send({
       id: user._id,
-      user: user,
       accessToken: _token,
       refreshToken: userRefreshToken,
     });
