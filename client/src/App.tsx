@@ -1,17 +1,11 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 
-import { Home, Login, ResetPassword, ForgotPassword, Register } from './pages';
+import Routes from './routes';
 
 export default function App() {
   return (
     <Router>
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='login' element={<Login />} />
-        <Route path='register' element={<Register />} />
-        <Route path='forgot-password' element={<ForgotPassword />} />
-        <Route path='reset-password/:id/:token' element={<ResetPassword />} />
-      </Routes>
+      <Routes />
     </Router>
   );
 }

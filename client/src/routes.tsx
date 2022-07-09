@@ -1,14 +1,15 @@
 import { useRoutes } from 'react-router-dom';
 import { Home, Login, ResetPassword, ForgotPassword, Register } from './pages';
 
-export default function Router() {
-  let element = useRoutes([
-    {
-      path: '/',
-      element: <Home />,
-    },
+export default function Routes() {
+  return useRoutes([
+    { path: '/', element: <Home /> },
     { path: 'login', element: <Login /> },
+    { path: 'register', element: <Register /> },
+    {
+      path: 'forgot-password',
+      element: <ForgotPassword />,
+      children: [{ path: ':id/:token', element: <ResetPassword /> }],
+    },
   ]);
-
-  return element;
 }
