@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import { Box, Link, Text, Stack, Button } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom'
 
 interface ItemProps {
   children: ReactNode;
@@ -12,12 +13,11 @@ interface LinkProps {
 }
 
 const MenuItem = ({ children, isLast, to = '/', ...rest }: ItemProps) => {
+  let navigate = useNavigate();
   return (
-    <Link href={to}>
-      <Text display='block' {...rest}>
+      <Button variant='link' {...rest} onClick={() => navigate(`${to}`)}>
         {children}
-      </Text>
-    </Link>
+      </Button>
   );
 };
 
