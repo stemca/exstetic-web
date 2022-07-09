@@ -32,8 +32,8 @@ router.get('/api/auth/get-users', async (req: Request, res: Response) => {
  */
 router.get('/api/auth/get-user/:id', async (req: Request, res: Response) => {
   try {
-    const users = await User.findById(req.params.id);
-    res.status(200).send(users);
+    const user = await User.findById(req.params.id);
+    res.status(200).send(user);
   } catch (error: any) {
     res.status(500).send({ message: error.message });
   }
@@ -85,14 +85,14 @@ router.post('/api/auth/register', async (req: Request, res: Response) => {
       email: req.body.email,
       password: req.body.password,
       address: req.body.address,
-      phoneNumber: req.body.phone || null,
+      phoneNumber: req.body.phoneNumber || null,
     });
-    
+
     await user.save();
     const token = generateToken(user._id);
-    res.status(201).send({ token: token });
+    return res.status(201).send({ token: token });
   } catch (error: any) {
-    res.status(500).send({ message: error.message });
+    return res.status(500).send({ message: error.message });
   }
 });
 
@@ -104,7 +104,7 @@ router.post('/api/auth/register', async (req: Request, res: Response) => {
 // prettier-ignore
 router.patch('/api/auth/update-user/:id', async (req: Request, res: Response) => {
   try {
-    const user = await User.findOne({ email: req.body.email});
+    const user = await User.findById(req.params.id);
     if (!user) {
       return res.status(400).send({ message: 'No user'})
     }
@@ -114,9 +114,9 @@ router.patch('/api/auth/update-user/:id', async (req: Request, res: Response) =>
       req.body.password = await hash(req.body.password, 8);
     }
 
-    const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
 
-    return res.status(200).send(updatedUser);
+    return res.status(200).send({ message: 'user updated' });
   } catch (error: any) {
     return res.status(500).send({ message: error.message });
   };

@@ -41,8 +41,8 @@ router.get('/api/auth/get-users', (req, res) => __awaiter(void 0, void 0, void 0
  */
 router.get('/api/auth/get-user/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const users = yield user_model_1.User.findById(req.params.id);
-        res.status(200).send(users);
+        const user = yield user_model_1.User.findById(req.params.id);
+        res.status(200).send(user);
     }
     catch (error) {
         res.status(500).send({ message: error.message });
@@ -92,14 +92,14 @@ router.post('/api/auth/register', (req, res) => __awaiter(void 0, void 0, void 0
             email: req.body.email,
             password: req.body.password,
             address: req.body.address,
-            phoneNumber: req.body.phone || null,
+            phoneNumber: req.body.phoneNumber || null,
         });
         yield user.save();
         const token = generateToken(user._id);
-        res.status(201).send({ token: token });
+        return res.status(201).send({ token: token });
     }
     catch (error) {
-        res.status(500).send({ message: error.message });
+        return res.status(500).send({ message: error.message });
     }
 }));
 /**
@@ -110,7 +110,7 @@ router.post('/api/auth/register', (req, res) => __awaiter(void 0, void 0, void 0
 // prettier-ignore
 router.patch('/api/auth/update-user/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const user = yield user_model_1.User.findOne({ email: req.body.email });
+        const user = yield user_model_1.User.findById(req.params.id);
         if (!user) {
             return res.status(400).send({ message: 'No user' });
         }
@@ -118,8 +118,8 @@ router.patch('/api/auth/update-user/:id', (req, res) => __awaiter(void 0, void 0
         if (!(0, bcrypt_1.compareSync)(req.body.password, user.password)) {
             req.body.password = yield (0, bcrypt_1.hash)(req.body.password, 8);
         }
-        const updatedUser = yield user_model_1.User.findByIdAndUpdate(req.params.id, req.body, { new: true });
-        return res.status(200).send(updatedUser);
+        yield user_model_1.User.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        return res.status(200).send({ message: 'user updated' });
     }
     catch (error) {
         return res.status(500).send({ message: error.message });
