@@ -80,10 +80,17 @@ router.post('/api/auth/login', async (req: Request, res: Response) => {
  */
 router.post('/api/auth/register', async (req: Request, res: Response) => {
   try {
-    const user = new User(req.body);
+    const user = new User({
+      name: req.body.name,
+      email: req.body.email,
+      password: req.body.password,
+      address: req.body.address,
+      phoneNumber: req.body.phone || null,
+    });
+    
     await user.save();
     const token = generateToken(user._id);
-    res.status(201).send({ message: 'User created', token: token, user });
+    res.status(201).send({ token: token });
   } catch (error: any) {
     res.status(500).send({ message: error.message });
   }

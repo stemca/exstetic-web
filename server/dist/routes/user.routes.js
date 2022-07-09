@@ -72,7 +72,6 @@ router.post('/api/auth/login', (req, res) => __awaiter(void 0, void 0, void 0, f
         let userRefreshToken = yield refreshToken_model_1.RefreshToken.createToken(user);
         return res.status(200).send({
             id: user._id,
-            user: user,
             accessToken: _token,
             refreshToken: userRefreshToken,
         });
@@ -88,10 +87,16 @@ router.post('/api/auth/login', (req, res) => __awaiter(void 0, void 0, void 0, f
  */
 router.post('/api/auth/register', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const user = new user_model_1.User(req.body);
+        const user = new user_model_1.User({
+            name: req.body.name,
+            email: req.body.email,
+            password: req.body.password,
+            address: req.body.address,
+            phoneNumber: req.body.phone || null,
+        });
         yield user.save();
         const token = generateToken(user._id);
-        res.status(201).send({ message: 'User created', token: token, user });
+        res.status(201).send({ token: token });
     }
     catch (error) {
         res.status(500).send({ message: error.message });
